@@ -1,76 +1,31 @@
 plugins {
+    id 'java-library'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.gradle'
-    id 'org.spongepowered.mixin'
-    id "me.modmuss50.mod-publish-plugin" version "0.4.0"
+    id 'net.neoforged.gradle.userdev' version '7.0.+'
+    id 'net.neoforged.gradle.mixin' version '7.0.+'
+    id "me.modmuss50.mod-publish-plugin"
 }
 
 base {
     archivesName = "${mod_id}-neo-${minecraft_version}"
 }
 
-mixin {
-    add(sourceSets.main, "${mod_id}.refmap.json")
+//minecraft.accessTransformers.file file('src/main/resources/META-INF/accesstransformer.cfg')
 
-    config("${mod_id}.forge.mixins.json")
-}
-
-minecraft {
-    mappings channel: 'official', version: minecraft_version
-
-    copyIdeResources = true //Calls processResources when in dev
-
-    // Automatically enable forge AccessTransformers if the file exists
-    // This location is hardcoded in Forge and can not be changed.
-    // https://github.com/MinecraftForge/MinecraftForge/blob/be1698bb1554f9c8fa2f58e32b9ab70bc4385e60/fmlloader/src/main/java/net/minecraftforge/fml/loading/moddiscovery/ModFile.java#L123
-    if (file('src/main/resources/META-INF/accesstransformer.cfg').exists()) {
-        accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+runs {
+    configureEach {
+        modSource project.sourceSets.main
     }
 
-    runs {
-        client {
-            workingDirectory project.file('run')
-            ideaModule "${rootProject.name}.${project.name}.main"
-            taskName 'Client'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-            mods {
-                modClientRun {
-                    source sourceSets.main
-                    source project(":common").sourceSets.main
-                }
-            }
-        }
+    client {
+        // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
+        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+    }
 
-        server {
-            workingDirectory project.file('run')
-            ideaModule "${rootProject.name}.${project.name}.main"
-            taskName 'Server'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-            mods {
-                modServerRun {
-                    source sourceSets.main
-                    source project(":common").sourceSets.main
-                }
-            }
-        }
-
-        data {
-            workingDirectory project.file('run')
-            ideaModule "${rootProject.name}.${project.name}.main"
-            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
-            taskName 'Data'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-            mods {
-                modDataRun {
-                    source sourceSets.main
-                    source project(":common").sourceSets.main
-                }
-            }
-        }
+    server {
+        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+        programArgument '--nogui'
     }
 }
 
@@ -85,12 +40,9 @@ repositories {
 }
 
 dependencies {
-    minecraft "net.neoforged:forge:${minecraft_version}-${neo_version}"
-	implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:0.2.1"))
-    implementation fg.deobf("mod.azure.azurelib:azurelib-neo-${minecraft_version}:${azurelib_version}")
-	implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:0.2.1"))
+    implementation "net.neoforged:neoforge:${neo_version}"
+    implementation "mod.azure.azurelib:azurelib-neo-${minecraft_version}:${azurelib_version}"
     compileOnly project(":common")
-    annotationProcessor("org.spongepowered:mixin:0.8.5-SNAPSHOT:processor")
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -118,7 +70,6 @@ if (file('key.properties').exists()) {
         changelog = rootProject.file("changelog.txt").text
         type = STABLE
         modLoaders.add("neoforge")
-        modLoaders.add("forge")
 
         curseforge {
             projectId = project.curseforgeID

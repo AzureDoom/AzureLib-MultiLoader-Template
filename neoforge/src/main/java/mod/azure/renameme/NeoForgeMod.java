@@ -1,6 +1,7 @@
 package mod.azure.renameme;
 
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.bus.api.IEventBus;
 import mod.azure.renameme.CommonMod;
 
 @Mod.EventBusSubscriber
@@ -9,7 +10,7 @@ public final class NeoForgeMod {
 
     public static NeoForgeMod instance;
 
-    public NeoForgeMod() {
+    public NeoForgeMod(IEventBus modEventBus) {
         instance = this;
     }
 }
