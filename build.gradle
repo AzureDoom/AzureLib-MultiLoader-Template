@@ -54,25 +54,25 @@ subprojects {
 
     processResources {
         def expandProps = [
-                "fabric_loader_version"     : project.fabric_loader_version,
-                "fabric_version"            : project.fabric_version,
-                "group"                     : project.group, //Else we target the task's group.
-                "loader_version_range"      : project.loader_version_range,
-                "minecraft_version"         : project.minecraft_version,
-                "minecraft_version_range"   : project.minecraft_version_range,
-                "mod_author"                : project.mod_author,
-                "mod_credits"               : project.mod_credits,
-                "mod_description"           : project.mod_description,
-                "mod_id"                    : project.mod_id,
-                "mod_issues"                : project.mod_issues,
-                "mod_license"               : project.mod_license,
-                "mod_logo"                  : project.mod_logo,
-                "mod_name"                  : project.mod_name,
-                "mod_sources"               : project.mod_sources,
-                "mod_url"                   : project.mod_url,
-                "version"                   : project.version,
-                "neo_version"               : project.neo_version,
-                "neo_version_range"         : project.neo_version_range,
+                "fabric_loader_version"  : project.fabric_loader_version,
+                "fabric_version"         : project.fabric_version,
+                "group"                  : project.group, //Else we target the task's group.
+                "loader_version_range"   : project.loader_version_range,
+                "minecraft_version"      : project.minecraft_version,
+                "minecraft_version_range": project.minecraft_version_range,
+                "mod_author"             : project.mod_author,
+                "mod_credits"            : project.mod_credits,
+                "mod_description"        : project.mod_description,
+                "mod_id"                 : project.mod_id,
+                "mod_issues"             : project.mod_issues,
+                "mod_license"            : project.mod_license,
+                "mod_logo"               : project.mod_logo,
+                "mod_name"               : project.mod_name,
+                "mod_sources"            : project.mod_sources,
+                "mod_url"                : project.mod_url,
+                "version"                : project.version,
+                "neo_version"            : project.neo_version,
+                "neo_version_range"      : project.neo_version_range,
         ]
 
         filesMatching(['pack.mcmeta', 'fabric.mod.json', '*.mixins.json', 'META-INF/mods.toml']) {
