@@ -1,8 +1,7 @@
 package mod.azure.renameme;
 
-import net.neoforged.fml.common.Mod;
 import net.neoforged.bus.api.IEventBus;
-import mod.azure.renameme.CommonMod;
+import net.neoforged.fml.common.Mod;
 
 @Mod.EventBusSubscriber
 @Mod(CommonMod.MOD_ID)
