@@ -29,7 +29,7 @@ runs {
     }
 }
 
-sourceSets.main.resources.srcDir 'src/generated/resources'
+sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
     maven { url 'https://libs.azuredoom.com:4443/mods' }
@@ -45,11 +45,18 @@ dependencies {
     compileOnly project(":common")
 }
 
-tasks.withType(JavaCompile).configureEach {
+// NeoGradle compiles the game, but we don't want to add our common code to the game's code
+Spec<Task> notNeoTask = { Task it -> !it.name.startsWith("neo") } as Spec<Task>
+
+tasks.withType(JavaCompile).matching(notNeoTask).configureEach {
     source(project(":common").sourceSets.main.allSource)
 }
 
-processResources {
+tasks.withType(Javadoc).matching(notNeoTask).configureEach {
+    source(project(":common").sourceSets.main.allJava)
+}
+
+tasks.withType(ProcessResources).matching(notNeoTask).configureEach {
     from project(":common").sourceSets.main.resources
 }
 
