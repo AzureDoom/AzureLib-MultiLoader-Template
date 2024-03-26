@@ -1,6 +1,7 @@
 modLoader="javafml"
 loaderVersion="${loader_version_range}"
-issueTrackerURL="${mod_issues}"
+# Only reenable if you have a issue tracker URL
+#issueTrackerURL="${mod_issues}"
 license="${mod_license}"
 [[mods]]
 modId="${mod_id}"
