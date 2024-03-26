@@ -73,6 +73,7 @@ subprojects {
                 "version"                : project.version,
                 "neo_version"            : project.neo_version,
                 "neo_version_range"      : project.neo_version_range,
+                "azurelib_version"       : project.azurelib_version,
         ]
 
         filesMatching(['pack.mcmeta', 'fabric.mod.json', '*.mixins.json', 'META-INF/mods.toml']) {
