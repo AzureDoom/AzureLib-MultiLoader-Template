@@ -1,6 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
+    id 'idea'
 }
 
 base {
@@ -101,4 +102,11 @@ processResources {
         expand expandProps
     }
     inputs.properties(expandProps)
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
 }
