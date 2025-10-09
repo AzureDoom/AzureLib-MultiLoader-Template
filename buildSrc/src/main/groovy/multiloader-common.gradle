@@ -95,8 +95,8 @@ processResources {
             "mod_sources": mod_sources,
             "mod_url": mod_url,
             "loader_version_range": loader_version_range,
-            "neo_version": neo_version,
-            "neo_version_range": neo_version_range,
+            "forge_version": forge_version,
+            "forge_version_range": forge_version_range,
             "mod_credits": mod_credits,
             "java_version": java_version,
             "azurelib_version": azurelib_version
