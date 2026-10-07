@@ -1,36 +1,36 @@
 plugins {
     id 'multiloader-loader'
-    id 'net.neoforged.moddev' version "${neo_moddev}"
-    id 'me.modmuss50.mod-publish-plugin' version "${modmuss50_mod_publish_version}"
+    id 'net.neoforged.moddev'
+    id 'me.modmuss50.mod-publish-plugin'
 }
 
 neoForge {
     version = "${neo_version}"
-    accessTransformers = ["src/main/resources/META-INF/accesstransformer.cfg"]
-
-    parchment {
-        minecraftVersion = "${parchment_minecraft}"
-        mappingsVersion = "${parchment_version}"
+    def at = project(':common').file('src/main/resources/META-INF/accesstransformer.cfg')
+    if (at.exists()) {
+        accessTransformers.from(at.absolutePath)
     }
 
     runs {
         client {
             client()
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            gameDirectory = this.mkdir(this.file('runs/client'))
         }
         server {
             server()
-            programArgument '--nogui'
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            this.file('runs/server').createParentDirectories()
+            gameDirectory = this.mkdir(this.file('runs/server'))
         }
         configureEach {
             logLevel = org.slf4j.event.Level.DEBUG
+            systemProperty('neoforge.enabledGameTestNamespaces', mod_id)
+            ideName = "NeoForge ${it.name.capitalize()} (${project.path})"
         }
     }
 
     mods {
         "${mod_id}" {
-            sourceSet(sourceSets.main)
+            sourceSet sourceSets.main
         }
     }
 }
